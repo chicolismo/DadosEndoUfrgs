@@ -1,0 +1,9 @@
+<h1>Pacients#index</h1>
+
+<ul>
+  <% @pacients.each do |pacient| %>
+    <li><%= pacient.name %></li>
+  <% end %>
+</ul>
+
+<%= paginate @pacients %>

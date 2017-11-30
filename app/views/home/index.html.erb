@@ -1,0 +1,13 @@
+<h1>Home Index</h1>
+<% if current_user %>
+  <%= current_user.name %>
+<% else %>
+  Sem usuário
+<% end %>
+
+<ul>
+  <% @anamneses.each do |a| %>
+    <li> <%= a.anm_qualProcCirurgia %> </li>
+    <li> <%= a.surgical_procedure_type %> </li>
+  <% end %>
+</ul>
