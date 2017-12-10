@@ -1,0 +1,48 @@
+= form_for @paciente do |f|
+  .form-group
+    = f.label :nome, 'Nome'
+    = f.text_field :nome, :class => 'form-control', :required => true
+
+  .form-group
+    .form-row
+      .col-sm
+        = f.label :rg, 'RG'
+        = f.text_field :rg, :class => 'form-control'
+      .col-sm
+        = f.label :cpf, 'CPF'
+        = f.text_field :cpf, :class => 'form-control'
+
+  .form-group
+    = f.label :nascimento, 'Nascimento'
+    = f.date_field :nascimento, :class => 'form-control'
+
+  .form-group
+    | Sexo<br />
+    .form-check.form-check-inline
+      = f.label(:sexo, :value => 'M', :class => 'form-check-label') do
+        = f.radio_button :sexo, 'M', :class => 'form-check-input'
+        | Masculino
+    .form-check.form-check-inline
+      = f.label(:sexo, :value => 'F', :class => 'form-check-label') do
+        = f.radio_button :sexo, 'F', :class => 'form-check-input'
+        | Feminino
+      
+  .form-group
+    = f.label :endereco, 'Endereço'
+    = f.text_field :endereco, :class => 'form-control'
+
+  .form-group
+    .form-row
+      .col-sm
+        = f.label :telefone, 'Telefone'
+        = f.telephone_field :telefone, :class => 'form-control'
+      .col-sm
+        = f.label :email, 'Email'
+        = f.email_field :email, :class => 'form-control'
+
+  .form-group
+    = f.label :acompanhante, 'Acompanhante'
+    = f.text_field :acompanhante, :class => 'form-control'
+
+  .form-group
+    = f.submit 'Salvar', :class => 'btn btn-primary'

@@ -1,0 +1,27 @@
+
+.paciente
+  .dados
+    h3 = link_to(paciente.nome, paciente_path(paciente))
+    h4 CPF: #{paciente.cpf}
+
+  h4 Anamnese
+  = link_to "Nova anamnese", new_anamnese_path(:paciente_id => paciente.id)
+  table.anamneses
+    - paciente.anamneses.each do |anm|  
+      tr
+        td Data #{anm.data}
+        td = link_to("Visualizar anamnese", anm, :class => 'btn btn-sm btn-primary')
+
+  h4 Avaliação Endodôntica
+  table.avaliacoes
+    - paciente.avaliacoes.each do |aval|
+      tr
+        td Data #{aval.data}
+        td = link_to("Visualizar avaliação", aval, :class => 'btn btn-sm btn-primary')
+
+  h4 Tratamento Endodôntico
+  table.tratamentos
+    - paciente.tratamentos.each do |trat|
+      tr
+        td Data #{trat.data}
+        td = link_to("Visualizar tratamento", trat, :class => 'btn btn-sm btn-primary')

@@ -16,4 +16,12 @@ class ApplicationController < ActionController::Base
   def logged_in?
     session[:user_id]
   end
+
+  def current_user
+    if session[:user_id]
+      Usuario.find(session[:user_id])
+    else
+      nil
+    end
+  end
 end

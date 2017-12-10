@@ -1,0 +1,186 @@
+- cardiovasculopatias_options = { :shite => 'fuck' }
+
+p Paciente: #{@anamnese.paciente.nome}, CPF: #{@anamnese.paciente.cpf}
+
+= form_for @anamnese do |f|
+  = f.hidden_field :usuario_id
+  = f.hidden_field :paciente_id
+
+
+  .form-group
+    = f.label :data, "Data da entrevista"
+    = f.date_field :data, :class => 'form-control'
+
+
+  = toggle_text_field(f, 'tratamento_medico', 'Está em tratamento no momento?', 'tratamento_medico_motivo', 'Motivo do tratamento')
+
+
+  = toggle_text_area(f, 'usa_medicamentos', 'Usa medicamentos?', 'lista_de_medicamentos', 'Quais medicamentos estão em uso')
+
+
+  = toggle_text_area(f, 'procedimento_cirurgia', 'Já fez algum procedimento cirúrgico', 'qual_procedimento_cirurgia', 'Qual procedimento')
+
+
+  = toggle_text_field(f, 'pa', 'Sabe o valor da sua pressão arterial?', 'valor_pa', 'Valor da pressão arterial')
+
+
+  = radios(f, 'febre_reumatica', 'Febre reumática?')
+
+
+  = radios(f, 'cardiovascular', 'Doenças cardiovasular?')
+
+
+  .form-group.form-toggler
+    | Doença cardiovascular?<br />
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('cardiovascular', 'sim', :class => 'form-check-input')
+        ' Sim
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('cardiovascular', 'não', :class => 'form-check-input')
+        ' Não
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('cardiovascular', 'dados não coletado', :class => 'form-check-input')
+        ' Dado não coletado
+  .form-group.form-hidden
+    = f.label :cardiovasculopatias_list, 'Quais doenças cardiovasculares'
+    .checkboxes
+      = collection_check_boxes(:anamnese, :cardiovasculopatias_list, @cardiovasculopatias_options, :id, :name) { |c| c.label { c.check_box + c.text } }
+
+
+  = radios(f, 'asma', 'Asma?')
+
+
+  = radios(f, 'dificuldade_de_respiracao', 'Dificuldade de respiração?')
+
+
+  .form-group
+    | Hepatite ou doença hepática?<br />
+    = collection_check_boxes(:anamnese, :hepatopatias_list, @hepatopatias_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text }, :class => 'form-check form-check-inline') }
+
+
+  .form-group
+    | Diabete?<br />
+    = collection_radio_buttons(:anamnese, :dm, @dm_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text }, :class => 'form-check form-check-inline') }
+
+
+  = radios(f, 'artrite', 'Artrite reumatóide?')
+
+
+  = radios(f, 'bisfosfonado', 'Uso de bisfosfonado?')
+
+
+  = radios(f, 'gastro', 'Gastrite e/ou úlcera gástrica?')
+
+
+  .form-group
+    | HIV?<br />
+    = collection_radio_buttons(:anamnese, :soro_hiv, @hiv_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+
+  = toggle_text_area(f, 'onco', 'Câncer?', 'onco_tipo', 'Tipo de câncer')
+
+
+  = radios(f, 'hemofilia', 'Sangramento excessivo quando se corta?')
+
+
+  = radios(f, 'gestante', 'Gestante?')
+
+
+  = radios(f, 'anemia', 'Anemia?')
+
+
+  .form-group.form-toggler
+    | Faz uso de drogas?<br />
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('drogas', 'sim', :class => 'form-check-input')
+        ' Sim
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('drogas', 'não', :class => 'form-check-input')
+        ' Não
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('drogas', 'dado não coletado', :class => 'form-check-input')
+        ' Dado não coletado
+  .form-hidden
+    .form-group
+      = f.label :drogas_tipo, 'Qual?'
+      = f.text_field :drogas_tipo, :class => 'form-control'
+    .form-group
+      | Frequência<br />
+      = collection_radio_buttons(:anamnese, :drogas_frequencia, @freq_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+
+  .form-group.form-toggler
+    | Faz uso álcool?<br />
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('alcool', 'sim', :class => 'form-check-input')
+        ' Sim
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('alcool', 'não', :class => 'form-check-input')
+        ' Não
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('alcool', 'dado não coletado', :class => 'form-check-input')
+        ' Dado não coletado
+  .form-group.form-hidden
+    | Frequência<br />
+    = collection_radio_buttons(:anamnese, :alcool_frequencia, @freq_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+
+  .form-group.form-toggler
+    | Faz uso de cigarros?<br />
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('drogas', 'sim', :class => 'form-check-input')
+        ' Sim
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('drogas', 'não', :class => 'form-check-input')
+        ' Não
+    .form-check.form-check-inline
+      label.form-check-label
+        = f.radio_button('drogas', 'dado não coletado', :class => 'form-check-input')
+        ' Dado não coletado
+  .form-hidden
+    .form-group
+      = f.label :tabaco_tipo, 'Quantidade?'
+      = f.text_field :tabaco_tipo, :class => 'form-control'
+    .form-group
+      | Frequência<br />
+      = collection_radio_buttons(:anamnese, :tabaco_frequencia, @freq_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+
+  = toggle_text_field(f, 'alergia_med', 'Alergia a medicamentos?', 'alergia_med_tipo', 'Quais?')
+
+
+  .form-group
+    = f.label :peso, 'Peso'
+    = f.text_field :peso, :class => 'form-control'
+    = f.label :peso2 do
+      = f.check_box :peso2, {}, 'dado não coletado', ''
+      |   Dado não coletado
+
+
+  .form-group
+    = f.label :altura, 'Altura'
+    = f.text_field :peso, :class => 'form-control'
+    = f.label :altura2 do
+      = f.check_box :altura2, {}, 'dado não coletado', ''
+      |   Dado não coletado
+
+
+  .form-group
+    = f.label :queixa_pricipal, 'Queixa principal'
+    = f.text_area :queixa_pricipal, :class => 'form-control'
+
+
+
+  .form-group
+    = f.submit 'Salvar', :class => 'btn btn-primary'

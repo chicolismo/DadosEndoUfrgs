@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   # Exibe o formulário de login
   def sign_in
-    @user = User.new
+    @user = Usuario.new
   end
 
   # Desloga o usuário e redireciona para a tela de login
@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
   # Recebe os dados do formulário de login e tenta criar uma nova
   # sessão para o usuário
   def new
-    user = User.find_by(:email => params[:email])
+    user = Usuario.find_by(:email => params[:email])
 
     if user && user.senha == params[:senha]
       session.clear

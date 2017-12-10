@@ -1,0 +1,31 @@
+// Place all the styles related to the pacients controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.search-form {
+    padding: 2em 0;
+
+    input[type="text"] {
+        width: 100%;
+    }
+}
+
+.pacientes {
+    .paciente {
+        .dados {
+            margin-bottom: 1em;
+        }
+        width: 100%;
+        border: 1px solid;
+        padding: 2em;
+        margin-bottom: 1em;
+
+        table td {
+            padding: 1em;
+        }
+    }
+}
+
+.pagination {
+    padding: 2em 0;
+}

@@ -1,0 +1,22 @@
+
+.row
+  .col-sm
+    = form_tag(pacientes_path, :method => 'GET', :class => 'search-form form-inline align-itens-center') do
+      .form-group
+        = label_tag :name, 'Procurar paciente'
+      .form-group.mx-sm-3
+        = text_field_tag :name, nil, :placeholder => 'Procurar pelo nome do paciente', :class => 'form-control'
+      .form-group
+        = submit_tag 'Buscar', :class => 'btn btn-primary'
+      .form-group.mx-sm-3
+        = link_to 'Cadastrar novo paciente', new_paciente_path, :class => 'btn btn-success'
+
+.row.pacientes
+  .col-sm
+    - if @pacientes.size > 0
+      h1 Resultados para "#{params[:name]}"
+
+      - @pacientes.each do |paciente|
+        = render(paciente)
+
+    = paginate @pacientes

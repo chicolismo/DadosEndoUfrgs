@@ -13,3 +13,21 @@
  *= require_tree .
  *= require_self
  */
+
+@import "settings";
+@import "bootstrap-custom";
+
+.form-hidden {
+    display: none;
+    padding: 1em;
+    background-color: #ddd;
+}
+
+.checkboxes {
+    input[type="checkbox"] {
+        margin-right: 0.5em;
+    }
+    label {
+        margin-right: 1.5em;
+    }
+}
