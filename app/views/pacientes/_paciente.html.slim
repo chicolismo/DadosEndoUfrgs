@@ -13,6 +13,7 @@
         td = link_to("Visualizar anamnese", anm, :class => 'btn btn-sm btn-primary')
 
   h4 Avaliação Endodôntica
+  = link_to "Nova avaliação", new_avaliacao_path(:paciente_id => paciente.id)
   table.avaliacoes
     - paciente.avaliacoes.each do |aval|
       tr

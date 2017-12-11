@@ -1,0 +1,185 @@
+p Paciente: #{@avaliacao.paciente.nome}, CPF: #{@avaliacao.paciente.cpf}
+
+= form_for(@avaliacao) do |f|
+  fieldset
+    legend Dados gerais
+    .row
+      .col-sm
+        .form-group
+          = f.label :data, 'Data'
+          = f.date_field :data, :class => 'form-control'
+      .col-sm
+        .form-group
+          = f.label :responsavel_atendimento, 'Responsável pelo atendimento'
+          = f.text_field :responsavel_atendimento, :class => 'form-control'
+
+    .form-group
+      = f.label :queixa_principal, 'Queixa principal'
+      = f.text_area :queixa_principal, :class => 'form-control'
+
+    / TODO: Incluir o dente
+
+    .form-group
+      = f.label :regiao_afetada, 'Região afetada'
+      = f.text_field :regiao_afetada, :class => 'form-control'
+
+  fieldset
+    legend Sintomas
+    .form-group.sintomas-opcoes
+      = collection_radio_buttons(:avaliacao, :sintomas, @sintomas_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+    .sintomas-detalhes
+      .row
+        .col-sm
+          .form-group
+            = f.label :escala_de_dor, 'Escala de dor'
+            = f.select :escala_de_dor, (1..5).map { |n| [n, n] }, { :include_blank => true }, { :class => 'form-control' }
+        .col-sm
+          .form-group
+            = f.label :sintomas_inicio, 'Início'
+            = f.select :sintomas_inicio, %w{dias meses anos}.map { |s| [s, s] }, { :include_blank => true}, { :class => 'form-control' }
+        .col-sm
+          .form-group
+            = f.label :sintomas_intensidade, 'Intensidade'
+            = f.select :sintomas_intensidade, %w{leve moderada intensa não\ coletado}.map { |s| [s, s] }, { :include_blank => true}, { :class => 'form-control' }
+      .row
+        .col-sm
+          .form-group
+            = f.label :sintomas_localizacao, 'Localização'
+            = f.select :sintomas_localizacao, %w{localizada difusa irradiada não\ coletado}.map { |s| [s, s] }, { :include_blank => true }, { :class => 'form-control' }
+        .col-sm
+          .form-group
+            = f.label :sintomas_duracao, 'Duração'
+            = f.select :sintomas_duracao, %w{instantâneo passageira intermitente continua não\ coletado}.map { |s| [s, s] }, { :include_blank => true }, { :class => 'form-control' }
+        .col-sm
+          .form-group
+            = f.label :sintomas_estimulo, 'Estímulo'
+            = f.select :sintomas_estimulo, %w{espontâneo provocado não\ coletado}.map { |s| [s, s] }, { :include_blank => true }, { :class => 'form-control' }
+      .form-group
+        | Tipo<br />
+        = collection_check_boxes(:avaliacao, :sintomas_tipo_list, @sintomas_tipo_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+      .form-group
+        | Fatores estimulantes<br />
+        = collection_check_boxes(:avaliacao, :sintomas_fatores_estimulantes_list, @sintomas_fatores_estimulantes_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+      .form-group
+        | Fatores atenuantes<br />
+        = collection_check_boxes(:avaliacao, :sintomas_fatores_atenuantes_list, @sintomas_fatores_atenuantes_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+      .form-group
+        | Sintomas associados<br />
+        = collection_check_boxes(:avaliacao, :sintomas_associados_list, @sintomas_associados_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+  fieldset
+    legend História clínica
+
+    .form-group
+      = f.label :hist_clinica_carie, 'Cáries'
+      = f.select :hist_clinica_carie, ['Cáries primárias', 'Recidiva de cárie', 'Ausência de cárie', 'Não coletado'].map { |s| [s.downcase, s] }, { :include_blank => true }, { :class => 'form-control' }
+
+    .form-group.traumatismo
+      | Histórico de traumatismo<br />
+      = f.collection_radio_buttons(:hist_clinica_traumatismo, @hist_clinica_traumatismo_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+    .traumatismo-detalhes
+      .row
+        .col-sm
+          .form-group
+            = f.label :hist_clinica_trauma_tipo, 'Tipo de traumatismo'
+            = f.text_field :hist_clinica_trauma_tipo, :class => 'form-control'
+        .col-sm
+          .form-group
+            = f.label :hist_clinica_periodo_trauma, 'Período do traumatismo'
+            = f.text_field :hist_clinica_periodo_trauma, :class => 'form-control'
+
+    .form-group.tratamentos-realizados
+      | Realizou tratamento?<br />
+      = f.collection_radio_buttons(:hist_clinica_tratamentos_realizados, @hist_clinica_tratamentos_realizados_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+    .tratamentos-realizados-detalhes
+      .form-group
+        | Tipos de tratamentos realizados<br />
+        = collection_check_boxes(:avaliacao, :hist_clinica_tratamentos_tipo_list, @hist_clinica_tratamentos_tipo_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+
+  fieldset
+    legend Exame clínico extraoral
+
+    .form-group.exame-clinico
+      | Edema<br />
+      = f.collection_radio_buttons(:extra_oral_edema, @extra_oral_edema_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+    .form-group
+      = f.label :extra_oral_local_edema, 'Localização do edema'
+      = f.text_field :extra_oral_local_edema, :class => 'form-control'
+
+    .form-group.exame-clinico
+      | Linfoadenopatia<br />
+      = f.collection_radio_buttons(:extra_oral_linfo_ade, @extra_oral_exame_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+    .form-group
+      = f.label :extra_oral_local_linfo_ade, 'Localização da linfoadenopatia'
+      = f.text_field :extra_oral_local_linfo_ade, :class => 'form-control'
+
+
+    / :extra_oral_dor_palpa,
+    / :extra_oral_regiao_dor,
+
+    / :extra_oral_fistula,
+    / :extra_oral_local_fistula,
+
+    / :extra_oral_outras_obs,
+
+  fieldset
+    legend Exame clínico extraoral
+
+    / :intra_oral_rastreamento,
+    / :intra_oral_origem_processo,
+    / :intra_oral_coroa,
+    / :intra_oral_material,
+    / :intra_oral_adpt_marginal,
+    / :intra_oral_material2,
+    / :intra_oral_adapt_marginal2,
+    / :intra_oral_outras,
+    / :intra_oral_material3,
+    / :intra_oral_inclinacao_dente,
+    / :intra_oral_giroversao,
+    / :intra_oral_bolsa_perio,
+    / :intra_oral_face_bolsa_perio,
+    / :intra_oral_face_bolsa_perio_vestibular,
+    / :intra_oral_face_bolsa_perio_palatina,
+    / :intra_oral_face_bolsa_perio_lingual,
+    / :intra_oral_face_bolsa_perio_mesial,
+    / :intra_oral_face_bolsa_perio_distal,
+    / :intra_oral_rast_bolsa_perio_distal,
+    / :intra_oral_local_bolsa_perio,
+    / :intra_oral_necrose_papilar,
+    / :intra_oral_eritema_gengival,
+    / :intra_oral_inv_espaco_bio,
+    / :intra_oral_retracao_gengival,
+    / :intra_oral_hiperplasia_tec,
+    / :radio_alt_periapical,
+    / :radio_indice_periapical,
+    / :radio_detalhes,
+    / :radio_detalhes_terco,
+    / :radio_detalhes1,
+    / :radio_detalhes2,
+    / :radio_detalhes3,
+    / :radio_detalhes4,
+    / :perda_ossa_reg_lateral,
+    / :perda_ossea_reg_lateral_local,
+    / :perda_ossea_perio,
+    / :tratamento_endo,
+    / :tratamento_endo_sat_tempo,
+    / :tratamento_endo_ins_tempo,
+    / :caract_apar0,
+    / :caract_apar1,
+    / :caract_apar2,
+    / :caract_apar3,
+    / :caract_apar4,
+    / :caract_apar5,
+    / :caract_apar6,
+    / :caract_apar_canais_n_trat,
+    / :caract_apar_cones_prata,
+    / :tomo,
+    / :tomo_detalhes,
+    / :diagnostico_pulpar,
+    / :diagnostico_periapical,
+    / :diagnostico_periodontal,
+    / :diagnostico_outros,
+    / :diagnostico_obs,
+    / :tratamento,
+    / :tratamento_outros,

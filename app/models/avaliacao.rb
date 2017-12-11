@@ -19,7 +19,7 @@ class Avaliacao < ApplicationRecord
 
   alias_attribute :data, :ava_data
   alias_attribute :responsavel_atendimento, :ava_resp_att
-  alias_attribute :queixa_pricipal, :ava_queixa_principal
+  alias_attribute :queixa_principal, :ava_queixa_principal
   alias_attribute :regiao_afetada, :ava_reg_afetada
   alias_attribute :sintomas, :ava_sintomas
   alias_attribute :escala_de_dor, :ava_escala_dor
@@ -38,70 +38,89 @@ class Avaliacao < ApplicationRecord
   alias_attribute :hist_clinica_periodo_trauma, :ava_histClinica_periodoTrauma
   alias_attribute :hist_clinica_tratamentos_realizados, :ava_histClinica_ttoRealizados
   alias_attribute :hist_clinica_tratamentos_tipo, :ava_histClinica_tipoTto
-  # alias_attribute :, :ava_extraOral_edema
-  # alias_attribute :, :ava_extraOral_localEdema
-  # alias_attribute :, :ava_extraOral_linfoAde
-  # alias_attribute :, :ava_extraOral_localLinfoAde
-  # alias_attribute :, :ava_extraOral_dorPalpa
-  # alias_attribute :, :ava_extraOral_regiaoDor
-  # alias_attribute :, :ava_extraOral_fistula
-  # alias_attribute :, :ava_extraOral_localFistula
-  # alias_attribute :, :ava_intraOral_rastreamento
-  # alias_attribute :, :ava_intraOral_origemProcesso
-  # alias_attribute :, :ava_extraOral_outrasObs
-  # alias_attribute :, :ava_intraOral_coroa
-  # alias_attribute :, :ava_intraOral_material
-  # alias_attribute :, :ava_intraOral_adaptMarginal
-  # alias_attribute :, :ava_intraOral_material2
-  # alias_attribute :, :ava_intraOral_adaptMarginal2
-  # alias_attribute :, :ava_intraOral_outras
-  # alias_attribute :, :ava_intraOral_material3
-  # alias_attribute :, :ava_intraOral_inclinacaoDente
-  # alias_attribute :, :ava_intraOral_giroversao
-  # alias_attribute :, :ava_intrOral_BolsaPerio
-  # alias_attribute :, :ava_intraOral_faceBolsaPerio
-  # alias_attribute :, :ava_intraOral_faceBolsaPerioVestibular
-  # alias_attribute :, :ava_intraOral_faceBolsaPerioPalatina
-  # alias_attribute :, :ava_intraOral_faceBolsaPerioLingual
-  # alias_attribute :, :ava_intraOral_faceBolsaPerioMesial
-  # alias_attribute :, :ava_intraOral_faceBolsaPerioDistal
-  # alias_attribute :, :ava_intraOral_rastBolsaPerio
-  # alias_attribute :, :ava_intraOral_localBolsaPerio
-  # alias_attribute :, :ava_intraOral_NecrosePapilar
-  # alias_attribute :, :ava_intraOral_eritemaGengival
-  # alias_attribute :, :ava_IntraOral_InvEspacoBio
-  # alias_attribute :, :ava_intraOral_RetracaoGengival
-  # alias_attribute :, :ava_intraOral_hiperplasiaTec
-  # alias_attribute :, :ava_radio_AltPeriapical
-  # alias_attribute :, :ava_radio_IndicePeriapical
-  # alias_attribute :, :ava_radio_detalhes
-  # alias_attribute :, :ava_radio_detalhesTerco
-  # alias_attribute :, :ava_radio_detalhes1
-  # alias_attribute :, :ava_radio_detalhes2
-  # alias_attribute :, :ava_radio_detalhes3
-  # alias_attribute :, :ava_radio_detalhes4
-  # alias_attribute :, :ava_perdaOsseaRegLateral
-  # alias_attribute :, :ava_perdaOsseaRegLateralLocal
-  # alias_attribute :, :ava_perdaOsseaPerio
-  # alias_attribute :, :ava_tratamentoEndo
-  # alias_attribute :, :ava_tratamentoEndoSatTempo
-  # alias_attribute :, :ava_tratamentoEndoInsTempo
-  # alias_attribute :, :ava_caractApar
-  # alias_attribute :, :ava_caractApar1
-  # alias_attribute :, :ava_caractApar2
-  # alias_attribute :, :ava_caractApar3
-  # alias_attribute :, :ava_caractApar4
-  # alias_attribute :, :ava_caractApar5
-  # alias_attribute :, :ava_caractApar6
-  # alias_attribute :, :ava_caractAparCanaisNTrat
-  # alias_attribute :, :ava_caractAparConesPrata
-  # alias_attribute :, :ava_tomo
-  # alias_attribute :, :ava_tomoDetalhes
-  # alias_attribute :, :ava_diagnosticoPulpar
-  # alias_attribute :, :ava_diagnosticoPeriapical
-  # alias_attribute :, :ava_diagnosticoPeriodontal
-  # alias_attribute :, :ava_diagnosticoOutros
-  # alias_attribute :, :ava_diagnosticoObs
-  # alias_attribute :, :ava_tratamento
-  # alias_attribute :, :ava_tratamentoOutros
+  alias_attribute :extra_oral_edema, :ava_extraOral_edema
+  alias_attribute :extra_oral_local_edema, :ava_extraOral_localEdema
+  alias_attribute :extra_oral_linfo_ade, :ava_extraOral_linfoAde
+  alias_attribute :extra_oral_local_linfo_ade, :ava_extraOral_localLinfoAde
+  alias_attribute :extra_oral_dor_palpa, :ava_extraOral_dorPalpa
+  alias_attribute :extra_oral_regiao_dor, :ava_extraOral_regiaoDor
+  alias_attribute :extra_oral_fistula, :ava_extraOral_fistula
+  alias_attribute :extra_oral_local_fistula, :ava_extraOral_localFistula
+  alias_attribute :extra_oral_outras_obs, :ava_extraOral_outrasObs
+  alias_attribute :intra_oral_rastreamento, :ava_intraOral_rastreamento
+  alias_attribute :intra_oral_origem_processo, :ava_intraOral_origemProcesso
+  alias_attribute :intra_oral_coroa, :ava_intraOral_coroa
+  alias_attribute :intra_oral_material, :ava_intraOral_material
+  alias_attribute :intra_oral_adpt_marginal, :ava_intraOral_adaptMarginal
+  alias_attribute :intra_oral_material2, :ava_intraOral_material2
+  alias_attribute :intra_oral_adapt_marginal2, :ava_intraOral_adaptMarginal2
+  alias_attribute :intra_oral_outras, :ava_intraOral_outras
+  alias_attribute :intra_oral_material3, :ava_intraOral_material3
+  alias_attribute :intra_oral_inclinacao_dente, :ava_intraOral_inclinacaoDente
+  alias_attribute :intra_oral_giroversao, :ava_intraOral_giroversao
+  alias_attribute :intra_oral_bolsa_perio, :ava_intrOral_BolsaPerio
+  alias_attribute :intra_oral_face_bolsa_perio, :ava_intraOral_faceBolsaPerio
+  alias_attribute :intra_oral_face_bolsa_perio_vestibular, :ava_intraOral_faceBolsaPerioVestibular
+  alias_attribute :intra_oral_face_bolsa_perio_palatina, :ava_intraOral_faceBolsaPerioPalatina
+  alias_attribute :intra_oral_face_bolsa_perio_lingual, :ava_intraOral_faceBolsaPerioLingual
+  alias_attribute :intra_oral_face_bolsa_perio_mesial, :ava_intraOral_faceBolsaPerioMesial
+  alias_attribute :intra_oral_face_bolsa_perio_distal, :ava_intraOral_faceBolsaPerioDistal
+  alias_attribute :intra_oral_rast_bolsa_perio_distal, :ava_intraOral_rastBolsaPerio
+  alias_attribute :intra_oral_local_bolsa_perio, :ava_intraOral_localBolsaPerio
+  alias_attribute :intra_oral_necrose_papilar, :ava_intraOral_NecrosePapilar
+  alias_attribute :intra_oral_eritema_gengival, :ava_intraOral_eritemaGengival
+  alias_attribute :intra_oral_inv_espaco_bio, :ava_IntraOral_InvEspacoBio
+  alias_attribute :intra_oral_retracao_gengival, :ava_intraOral_RetracaoGengival
+  alias_attribute :intra_oral_hiperplasia_tec, :ava_intraOral_hiperplasiaTec
+  alias_attribute :radio_alt_periapical, :ava_radio_AltPeriapical
+  alias_attribute :radio_indice_periapical, :ava_radio_IndicePeriapical
+  alias_attribute :radio_detalhes, :ava_radio_detalhes
+  alias_attribute :radio_detalhes_terco, :ava_radio_detalhesTerco
+  alias_attribute :radio_detalhes1, :ava_radio_detalhes1
+  alias_attribute :radio_detalhes2, :ava_radio_detalhes2
+  alias_attribute :radio_detalhes3, :ava_radio_detalhes3
+  alias_attribute :radio_detalhes4, :ava_radio_detalhes4
+  alias_attribute :perda_ossa_reg_lateral, :ava_perdaOsseaRegLateral
+  alias_attribute :perda_ossea_reg_lateral_local, :ava_perdaOsseaRegLateralLocal
+  alias_attribute :perda_ossea_perio, :ava_perdaOsseaPerio
+  alias_attribute :tratamento_endo, :ava_tratamentoEndo
+  alias_attribute :tratamento_endo_sat_tempo, :ava_tratamentoEndoSatTempo
+  alias_attribute :tratamento_endo_ins_tempo, :ava_tratamentoEndoInsTempo
+  alias_attribute :caract_apar0, :ava_caractApar
+  alias_attribute :caract_apar1, :ava_caractApar1
+  alias_attribute :caract_apar2, :ava_caractApar2
+  alias_attribute :caract_apar3, :ava_caractApar3
+  alias_attribute :caract_apar4, :ava_caractApar4
+  alias_attribute :caract_apar5, :ava_caractApar5
+  alias_attribute :caract_apar6, :ava_caractApar6
+  alias_attribute :caract_apar_canais_n_trat, :ava_caractAparCanaisNTrat
+  alias_attribute :caract_apar_cones_prata, :ava_caractAparConesPrata
+  alias_attribute :tomo, :ava_tomo
+  alias_attribute :tomo_detalhes, :ava_tomoDetalhes
+  alias_attribute :diagnostico_pulpar, :ava_diagnosticoPulpar
+  alias_attribute :diagnostico_periapical, :ava_diagnosticoPeriapical
+  alias_attribute :diagnostico_periodontal, :ava_diagnosticoPeriodontal
+  alias_attribute :diagnostico_outros, :ava_diagnosticoOutros
+  alias_attribute :diagnostico_obs, :ava_diagnosticoObs
+  alias_attribute :tratamento, :ava_tratamento
+  alias_attribute :tratamento_outros, :ava_tratamentoOutros
+
+
+  # Métodos extras para lidar com os campos que são divididos com asterisco
+  [
+    :sintomas_tipo,
+    :sintomas_fatores_estimulantes,
+    :sintomas_fatores_atenuantes,
+    :sintomas_associados,
+    :hist_clinica_tratamentos_tipo,
+  ].each do |method|
+    method_str = method.to_s
+    define_method(method_str + '_list') do
+      self.send(method).split('*').select { |string| string.size > 0 }
+    end
+    define_method(method_str + '_list=') do |list|
+      self.send(method_str + '=', list.join('*'))
+    end
+  end
+
 end
