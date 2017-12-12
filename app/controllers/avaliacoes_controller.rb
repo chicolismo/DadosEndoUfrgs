@@ -25,9 +25,22 @@ class AvaliacoesController < ApplicationController
     end
   end
 
+  def update
+    @avaliacao = Avaliacao.find(params[:id])
+    @avaliacao.update(avaliacao_params)
+
+    if @avaliacao.save
+      redirect_to @avaliacao
+    else
+      redirect_back(:fallback_location => root_url)
+    end
+  end
+
   private
 
   def define_options
+    @option = Option
+
     @sintomas_options = ['Ausentes', 'Ausentes com antecedentes', 'Presentes'].map do |string|
        Option.new(string, string)
     end
@@ -79,13 +92,33 @@ class AvaliacoesController < ApplicationController
     @extra_oral_exame_options = ['Ausente', 'Presente', 'Não coletado'].map do |string|
       Option.new(string.downcase, string)
     end
+
+    @intra_oral_rastreamento_options = ['Não', 'Sim', 'Não coletado'].map do |string|
+      Option.new(string.downcase, string)
+    end
+
+    @intra_oral_origem_processo_options = ['Periápice', 'Região de furca', 'Periodonto', 'Dado não coletado'].map do |string|
+      Option.new(string.downcase, string)
+    end
+
+    @intra_oral_adapt_marginal_options = ['satisfatória', 'insatisfatória', 'não se aplica'].map do |string|
+      Option.new(string.downcase, string)
+    end
+
+    @intra_oral_coroa_options_1 = ['Ausente', 'Integra', 'Cariada', 'Destruição coronária', 'Fratura Coronária', 'Coroa protética'].map do |string|
+      Option.new(string.downcase, string)
+    end
+
+    @intra_oral_coroa_options_2 = ['Prognóstico restaurador duvidoso', 'Exposição da cavidade pulpar', 'Alteração cromática', 'Dado não coletado'].map do |string|
+      Option.new(string.downcase, string)
+    end
   end
 
   def avaliacao_params
     params.require(:avaliacao).permit(
       :data,
       :responsavel_atendimento,
-      :queixa_pricipal,
+      :queixa_principal,
       :regiao_afetada,
       :sintomas,
       :escala_de_dor,
@@ -120,9 +153,10 @@ class AvaliacoesController < ApplicationController
       :extra_oral_outras_obs,
       :intra_oral_rastreamento,
       :intra_oral_origem_processo,
-      :intra_oral_coroa,
+      #:intra_oral_coroa,
+      { :intra_oral_coroa_list => [] },
       :intra_oral_material,
-      :intra_oral_adpt_marginal,
+      :intra_oral_adapt_marginal,
       :intra_oral_material2,
       :intra_oral_adapt_marginal2,
       :intra_oral_outras,

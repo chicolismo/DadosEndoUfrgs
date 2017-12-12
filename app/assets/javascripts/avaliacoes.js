@@ -102,7 +102,34 @@ $(function () {
             next.slideUp(200);
         }
         else {
-            next.slideDown(200).find('input').focus();
+            next.slideDown(200).find('input').eq(0).focus();
+        }
+    });
+
+    //=========================================================================
+    // Trata de esconder os detalhes do material da restauração da coroa
+    //=========================================================================
+    var coroaMaterial = form.find('.coroa-material');
+    coroaMaterial.each(function () {
+        var coroa = $(this);
+        var input = coroa.find('input:checked');
+        var next = coroa.next();
+        if (input.length > 0) {
+            next.slideDown(200);
+        }
+        else {
+            next.slideUp(200);
+        }
+    });
+    coroaMaterial.on('change', function () {
+        var coroa = $(this);
+        var input = coroa.find('input:checked');
+        var next = coroa.next();
+        if (input.length > 0) {
+            next.slideDown(200).find('input').eq(0).focus();
+        }
+        else {
+            next.slideUp(200);
         }
     });
 });

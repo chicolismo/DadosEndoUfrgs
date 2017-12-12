@@ -27,7 +27,7 @@ p Paciente: #{@avaliacao.paciente.nome}, CPF: #{@avaliacao.paciente.cpf}
     legend Sintomas
     .form-group.sintomas-opcoes
       = collection_radio_buttons(:avaliacao, :sintomas, @sintomas_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
-    .sintomas-detalhes
+    .sintomas-detalhes.sub-group
       .row
         .col-sm
           .form-group
@@ -77,7 +77,7 @@ p Paciente: #{@avaliacao.paciente.nome}, CPF: #{@avaliacao.paciente.cpf}
     .form-group.traumatismo
       | Histórico de traumatismo<br />
       = f.collection_radio_buttons(:hist_clinica_traumatismo, @hist_clinica_traumatismo_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
-    .traumatismo-detalhes
+    .traumatismo-detalhes.sub-group
       .row
         .col-sm
           .form-group
@@ -91,7 +91,7 @@ p Paciente: #{@avaliacao.paciente.nome}, CPF: #{@avaliacao.paciente.cpf}
     .form-group.tratamentos-realizados
       | Realizou tratamento?<br />
       = f.collection_radio_buttons(:hist_clinica_tratamentos_realizados, @hist_clinica_tratamentos_realizados_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
-    .tratamentos-realizados-detalhes
+    .tratamentos-realizados-detalhes.sub-group
       .form-group
         | Tipos de tratamentos realizados<br />
         = collection_check_boxes(:avaliacao, :hist_clinica_tratamentos_tipo_list, @hist_clinica_tratamentos_tipo_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
@@ -103,31 +103,78 @@ p Paciente: #{@avaliacao.paciente.nome}, CPF: #{@avaliacao.paciente.cpf}
     .form-group.exame-clinico
       | Edema<br />
       = f.collection_radio_buttons(:extra_oral_edema, @extra_oral_edema_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
-    .form-group
+    .form-group.sub-group
       = f.label :extra_oral_local_edema, 'Localização do edema'
       = f.text_field :extra_oral_local_edema, :class => 'form-control'
 
     .form-group.exame-clinico
       | Linfoadenopatia<br />
       = f.collection_radio_buttons(:extra_oral_linfo_ade, @extra_oral_exame_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
-    .form-group
+    .form-group.sub-group
       = f.label :extra_oral_local_linfo_ade, 'Localização da linfoadenopatia'
       = f.text_field :extra_oral_local_linfo_ade, :class => 'form-control'
 
+    .form-group.exame-clinico
+      | Dor à apalpação?<br />
+      = f.collection_radio_buttons(:extra_oral_dor_palpa, @extra_oral_exame_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+    .form-group.sub-group
+      = f.label :extra_oral_regiao_dor, 'Região da dor'
+      = f.text_field :extra_oral_regiao_dor, :class => 'form-control'
 
-    / :extra_oral_dor_palpa,
-    / :extra_oral_regiao_dor,
+    .form-group.exame-clinico
+      | Fístula?<br />
+      = f.collection_radio_buttons(:extra_oral_fistula, @extra_oral_exame_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+    .sub-group
+      .form-group
+        = f.label :extra_oral_local_fistula, 'Localização da fístula'
+        = f.text_field :extra_oral_local_fistula, :class => 'form-control'
+      .form-group
+        | Fístula &ndash; Foi feito rastreamento?<br />
+        = f.collection_radio_buttons(:intra_oral_rastreamento, @intra_oral_rastreamento_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+      .form-group
+        | Fístula &ndash; Origem do processo<br />
+        = f.collection_radio_buttons(:intra_oral_origem_processo, @intra_oral_origem_processo_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
 
-    / :extra_oral_fistula,
-    / :extra_oral_local_fistula,
-
-    / :extra_oral_outras_obs,
+    .form-group
+      = f.label :extra_oral_outras_obs, 'Outras observações'
+      = f.text_area :extra_oral_outras_obs, :class => 'form-control'
 
   fieldset
-    legend Exame clínico extraoral
+    legend Exame clínico intraoral
 
-    / :intra_oral_rastreamento,
-    / :intra_oral_origem_processo,
+    //=========================================================================
+    // Coroa
+    //=========================================================================
+    .form-group
+      | Coroa<br />
+      = f.collection_check_boxes(:intra_oral_coroa_list, @intra_oral_coroa_options_1, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
+
+      = f.collection_check_boxes(:intra_oral_coroa_list, [@option.new('restaurada', 'Restaurada')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check coroa-material') }
+      .sub-group
+        .form-group
+          = f.label :intra_oral_material, 'Material da restauração'
+          = f.text_field :intra_oral_material, :class => 'form-control'
+        .form-group
+          | Adaptação marginal<br />
+          = f.collection_radio_buttons(:intra_oral_adapt_marginal, @intra_oral_adapt_marginal_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
+
+      = f.collection_check_boxes(:intra_oral_coroa_list, [@option.new('fratura corono-radicular', 'Fratura corono-radicular')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
+
+      = f.collection_check_boxes(:intra_oral_coroa_list, [@option.new('restauração provisória', 'Restauração provisória')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check coroa-material') }
+      .sub-group
+        .form-group
+          = f.label :intra_oral_material2, 'Material da restauração provisória'
+          = f.text_field :intra_oral_material2, :class => 'form-control'
+        .form-group
+          | Adaptação marginal<br />
+          = f.collection_radio_buttons(:intra_oral_adapt_marginal2, @intra_oral_adapt_marginal_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+      = f.collection_check_boxes(:intra_oral_coroa_list, @intra_oral_coroa_options_2, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
+    //=========================================================================
+
+      //= collection_check_boxes(:avaliacao, :intra_oral_coroa_list, @intra_oral_coroa_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+
     / :intra_oral_coroa,
     / :intra_oral_material,
     / :intra_oral_adpt_marginal,
@@ -183,3 +230,6 @@ p Paciente: #{@avaliacao.paciente.nome}, CPF: #{@avaliacao.paciente.cpf}
     / :diagnostico_obs,
     / :tratamento,
     / :tratamento_outros,
+
+  .form-group
+    = f.submit 'Salvar avaliação', :class => 'btn btn-primary'

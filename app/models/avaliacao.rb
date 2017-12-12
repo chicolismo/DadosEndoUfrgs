@@ -46,12 +46,13 @@ class Avaliacao < ApplicationRecord
   alias_attribute :extra_oral_regiao_dor, :ava_extraOral_regiaoDor
   alias_attribute :extra_oral_fistula, :ava_extraOral_fistula
   alias_attribute :extra_oral_local_fistula, :ava_extraOral_localFistula
-  alias_attribute :extra_oral_outras_obs, :ava_extraOral_outrasObs
   alias_attribute :intra_oral_rastreamento, :ava_intraOral_rastreamento
   alias_attribute :intra_oral_origem_processo, :ava_intraOral_origemProcesso
+  alias_attribute :extra_oral_outras_obs, :ava_extraOral_outrasObs
+
   alias_attribute :intra_oral_coroa, :ava_intraOral_coroa
   alias_attribute :intra_oral_material, :ava_intraOral_material
-  alias_attribute :intra_oral_adpt_marginal, :ava_intraOral_adaptMarginal
+  alias_attribute :intra_oral_adapt_marginal, :ava_intraOral_adaptMarginal
   alias_attribute :intra_oral_material2, :ava_intraOral_material2
   alias_attribute :intra_oral_adapt_marginal2, :ava_intraOral_adaptMarginal2
   alias_attribute :intra_oral_outras, :ava_intraOral_outras
@@ -113,6 +114,7 @@ class Avaliacao < ApplicationRecord
     :sintomas_fatores_atenuantes,
     :sintomas_associados,
     :hist_clinica_tratamentos_tipo,
+    :intra_oral_coroa
   ].each do |method|
     method_str = method.to_s
     define_method(method_str + '_list') do
