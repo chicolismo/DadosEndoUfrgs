@@ -1,6 +1,41 @@
-h1 Detalhes do paciente
+.paciente-show
+  .row
+    .col-sm-12
+      h1
+        ' #{@paciente.nome}
+        ' #{link_to('Editar paciente', edit_paciente_path(@paciente), :class => 'btn btn-success')}
 
-table
-  tr
-    td = @paciente.nome
-    td = @paciente.rg
+      hr
+
+      h2 CPF #{@paciente.cpf}
+
+      hr
+
+      h2 Anamneses #{link_to 'Nova anamnese', new_anamnese_path(:paciente_id => @paciente.id), :class => 'btn btn-primary'}
+
+      table.anamneses
+        - @paciente.anamneses.each do |anm|
+          tr
+            td Data #{anm.data&.strftime("%d/%m/%Y")}
+            td = link_to('Visualisar', edit_anamnese_path(anm), :class => 'btn btn-sm btn-success')
+            td = link_to('Excluir', anm, :method => 'DELETE', :class => 'btn btn-sm btn-danger', :data => { :confirm => 'Tem certeza?' })
+
+      hr
+
+      h2 Avaliação Endodôntica #{link_to "Nova avaliação", new_avaliacao_path(:paciente_id => @paciente.id), :class => 'btn btn-primary'}
+
+      table.avaliacoes
+        - @paciente.avaliacoes.each do |aval|
+          tr
+            td Data #{aval.data&.strftime("%d/%m/%Y")}
+            td = link_to("Visualizar", edit_avaliacao_path(aval), :class => 'btn btn-sm btn-success')
+            td = link_to('Excluir', aval, :method => 'DELETE', :class => 'btn btn-sm btn-danger', :data => { :confirm => 'Tem certeza?' })
+
+      h2 Tratamento Endodôntico #{link_to "Nova tratamento", new_tratamento_path(:paciente_id => @paciente.id), :class => 'btn btn-primary'}
+
+      table.tratamentos
+        - @paciente.tratamentos.each do |trat|
+          tr
+            td Data #{trat.data&.strftime("%d/%m/%Y")}
+            td = link_to("Visualizar", edit_tratamento_path(trat), :class => 'btn btn-sm btn-success')
+            td = link_to('Excluir', trat, :method => 'DELETE', :class => 'btn btn-sm btn-danger', :data => { :confirm => 'Tem certeza?' })

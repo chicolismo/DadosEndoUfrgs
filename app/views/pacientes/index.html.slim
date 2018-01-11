@@ -14,9 +14,8 @@
 .row.pacientes
   .col-sm
     - if @pacientes.size > 0
-      h1 Resultados para "#{params[:name]}"
+      h1 Pacientes
 
-      - @pacientes.each do |paciente|
-        = render(paciente)
+      = render @pacientes
 
     = paginate @pacientes

@@ -6,11 +6,10 @@ class PacientesController < ApplicationController
     # O resultado será ordenado pelos nomes dos pacientes de forma alfabética
     # Cada página exibirá 20 resultados
     @pacientes = if name.nil?
-                   Paciente.none.page(params[:page])
+                   Paciente.order(:nome).page(params[:page]).per(20)
                  else
                    Paciente
-                     .search_by_name(name)
-                     .includes([:anamneses, :avaliacoes, :tratamentos])
+                     .search_by_name(name) #.includes([:anamneses, :avaliacoes, :tratamentos])
                      .order(:nome)
                      .page(params[:page])
                      .per(20)

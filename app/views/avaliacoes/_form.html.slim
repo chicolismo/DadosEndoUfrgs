@@ -1,6 +1,12 @@
-p Paciente: #{@avaliacao.paciente.nome}, CPF: #{@avaliacao.paciente.cpf}
+p Paciente: #{link_to @avaliacao.paciente.nome, @avaliacao.paciente}
+
+- if @avaliacao.errors.size > 0
+  = @avaliacao.errors
 
 = form_for(@avaliacao) do |f|
+  = f.hidden_field :paciente_id
+  = f.hidden_field :usuario_id
+
   fieldset
     legend Dados gerais
     .row
@@ -170,34 +176,101 @@ p Paciente: #{@avaliacao.paciente.nome}, CPF: #{@avaliacao.paciente.cpf}
           = f.collection_radio_buttons(:intra_oral_adapt_marginal2, @intra_oral_adapt_marginal_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
 
       = f.collection_check_boxes(:intra_oral_coroa_list, @intra_oral_coroa_options_2, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
+
+      | Outras características
+
+      = f.collection_check_boxes(:intra_oral_coroa_list, @intra_oral_coroa_options_3, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
+
+      = f.collection_check_boxes(:intra_oral_coroa_list, [@option.new('outras', 'Outras')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check coroa-material') }
+      .sub-group
+        .form-group
+          = f.text_field :intra_oral_outras, :class => 'form-control'
     //=========================================================================
 
-      //= collection_check_boxes(:avaliacao, :intra_oral_coroa_list, @intra_oral_coroa_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
 
+    //=========================================================================
+    // Inclinação do dente
+    //=========================================================================
+    .form-group
+      | Inclinação do dente no arco dental<br />
+      = f.collection_radio_buttons(:intra_oral_inclinacao_dente, @intra_oral_inclinacao_dente_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
 
-    / :intra_oral_coroa,
-    / :intra_oral_material,
-    / :intra_oral_adpt_marginal,
-    / :intra_oral_material2,
-    / :intra_oral_adapt_marginal2,
-    / :intra_oral_outras,
-    / :intra_oral_material3,
-    / :intra_oral_inclinacao_dente,
-    / :intra_oral_giroversao,
-    / :intra_oral_bolsa_perio,
-    / :intra_oral_face_bolsa_perio,
-    / :intra_oral_face_bolsa_perio_vestibular,
-    / :intra_oral_face_bolsa_perio_palatina,
-    / :intra_oral_face_bolsa_perio_lingual,
-    / :intra_oral_face_bolsa_perio_mesial,
-    / :intra_oral_face_bolsa_perio_distal,
-    / :intra_oral_rast_bolsa_perio_distal,
-    / :intra_oral_local_bolsa_perio,
-    / :intra_oral_necrose_papilar,
-    / :intra_oral_eritema_gengival,
-    / :intra_oral_inv_espaco_bio,
-    / :intra_oral_retracao_gengival,
-    / :intra_oral_hiperplasia_tec,
+    //=========================================================================
+    // Giroversão
+    //=========================================================================
+    .form-group
+      | Giroversão<br />
+      = f.collection_radio_buttons(:intra_oral_giroversao, @intra_oral_giroversao_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
+
+  fieldset
+    legend Periodonto
+
+    //=========================================================================
+    // Bolsa periodontal
+    //=========================================================================
+    .form-group
+      | Bolsa periodontal<br />
+      = f.collection_radio_buttons(:intra_oral_bolsa_perio, [@option.new('presente', 'Presente'), @option.new('ausente', 'Ausente')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+    // Vestibular
+    .form-group
+      = f.collection_check_boxes(:intra_oral_face_bolsa_perio_list, [@option.new('vestibular', 'Vestibular')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check bolsa-periodontal') }
+      .sub-group
+        .form-group
+          = f.text_field :intra_oral_face_bolsa_perio_vestibular, :class => 'form-control', :placeholder => 'mm'
+
+    // Palatina
+    .form-group
+      = f.collection_check_boxes(:intra_oral_face_bolsa_perio_list, [@option.new('palatina', 'Palatina')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check bolsa-periodontal') }
+      .sub-group
+        .form-group
+          = f.text_field :intra_oral_face_bolsa_perio_palatina, :class => 'form-control', :placeholder => 'mm'
+
+    // Lingual
+    .form-group
+      = f.collection_check_boxes(:intra_oral_face_bolsa_perio_list, [@option.new('lingual', 'Lingual')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check bolsa-periodontal') }
+      .sub-group
+        .form-group
+          = f.text_field :intra_oral_face_bolsa_perio_lingual, :class => 'form-control', :placeholder => 'mm'
+
+    // Mesial
+    .form-group
+      = f.collection_check_boxes(:intra_oral_face_bolsa_perio_list, [@option.new('mesial', 'Mesial')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check bolsa-periodontal') }
+      .sub-group
+        .form-group
+          = f.text_field :intra_oral_face_bolsa_perio_mesial, :class => 'form-control', :placeholder => 'mm'
+
+    // Distal
+    .form-group
+      = f.collection_check_boxes(:intra_oral_face_bolsa_perio_list, [@option.new('distal', 'Distal')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check bolsa-periodontal') }
+      .sub-group
+        .form-group
+          = f.text_field :intra_oral_face_bolsa_perio_distal, :class => 'form-control', :placeholder => 'mm'
+
+    // Dado não coletado
+    .form-group
+      = f.collection_check_boxes(:intra_oral_face_bolsa_perio_list, [@option.new('dado não coletado', 'Dado não coletado')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
+
+    // Rastreamento?
+    = toggle(f, :intra_oral_rast_bolsa_perio, 'Foi feito o rastreamento da bolsa?', :intra_oral_local_bolsa_perio, 'Localização', :text_field)
+
+    // Necrose papilar
+    = radios(f, :intra_oral_necrose_papilar, 'Necrose papilar')
+
+    // Eritema gengival
+    = radios(f, :intra_oral_eritema_gengival, 'Eritema gengival')
+
+    // Invação do espaço biológico
+    = radios(f, :intra_oral_inv_espaco_bio, 'Invasão do espaço biológico')
+
+    // Retração gengival
+    = radios(f, :intra_oral_retracao_gengival, 'Retração gengival')
+
+    // Hiperplasia tecidual
+    .form-group
+      | Hiperplasia tecidual<br />
+      = f.collection_radio_buttons(:intra_oral_hiperplasia_tec, @intra_oral_hiperplasia_tec_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
     / :radio_alt_periapical,
     / :radio_indice_periapical,
     / :radio_detalhes,
@@ -221,15 +294,70 @@ p Paciente: #{@avaliacao.paciente.nome}, CPF: #{@avaliacao.paciente.cpf}
     / :caract_apar6,
     / :caract_apar_canais_n_trat,
     / :caract_apar_cones_prata,
-    / :tomo,
-    / :tomo_detalhes,
-    / :diagnostico_pulpar,
-    / :diagnostico_periapical,
-    / :diagnostico_periodontal,
-    / :diagnostico_outros,
-    / :diagnostico_obs,
-    / :tratamento,
-    / :tratamento_outros,
+
+    // Exame tomográfico
+    .form-group
+      = toggle(f, :tomo, 'Exame tomográfico', :tomo_detalhes, 'Detalhar', :text_area)
+
+
+  // Diagnóstico
+  fielset
+    legend Diagnóstico
+
+    // Pulpar
+    .form-group
+      | <b>Pulpar</b><br />
+      = f.collection_radio_buttons(:diagnostico_pulpar, @diagnostico_pulpar_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+    // Periapical
+    .form-group
+      | <b>Periapical</b><br />
+      = f.collection_radio_buttons(:diagnostico_periapical, @diagnostico_periapical_options_1, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+    .form-group
+      | Periodontite apical aguda<br />
+      = f.collection_radio_buttons(:diagnostico_periapical, @diagnostico_periapical_options_2, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+    .form-group
+      | Periodontite apical crônica<br />
+      = f.collection_radio_buttons(:diagnostico_periapical, @diagnostico_periapical_options_3, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+    // Periodontal
+    .form-group
+      | <b>Periodontal</b><br />
+      = f.collection_check_boxes(:diagnostico_periodontal_list, @diagnostico_periodontal_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+    // Outros diagnósticos
+    .form-group
+      | <b>Outros</b><br />
+      = f.collection_check_boxes(:diagnostico_outros_list, @diagnostico_outros_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+    // Observações
+    .form-group
+      = f.label :diagnostico_obs, 'Observações'
+      = f.text_area :diagnostico_obs, :class => 'form-control'
+
+  fielset
+    legend Tratamento indicado
+
+    .form-group
+      = f.collection_check_boxes(:tratamento_list, @tratamento_options_1, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
+
+      / = f.collection_check_boxes(:intra_oral_coroa_list, [@option.new('restauração provisória', 'Restauração provisória')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check coroa-material') }
+
+      = f.collection_check_boxes(:tratamento_list, [@option.new('outros', 'Outros')], :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check coroa-material') }
+      .sub-group
+        .form-group
+          = f.label :tratamento_outros, 'Outros tratamentos'
+          = f.text_field :tratamento_outros, :class => 'form-control'
+
+    .form-group
+      | <b>Tratamento conservador da polpa</b><br />
+      = f.collection_check_boxes(:tratamento_list, @tratamento_options_2, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
+
+    .form-group
+      | <b>Endodontia</b><br />
+      = f.collection_check_boxes(:tratamento_list, @tratamento_options_3, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
 
   .form-group
     = f.submit 'Salvar avaliação', :class => 'btn btn-primary'

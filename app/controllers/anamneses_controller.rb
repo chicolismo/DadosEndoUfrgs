@@ -41,6 +41,13 @@ class AnamnesesController < ApplicationController
     end
   end
 
+  def destroy
+    anamnese = Anamnese.find(params[:id])
+    paciente = anamnese.paciente
+    anamnese.delete
+    redirect_to paciente
+  end
+
   private
 
   def define_form_options

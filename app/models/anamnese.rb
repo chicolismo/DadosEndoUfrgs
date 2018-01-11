@@ -56,7 +56,11 @@ class Anamnese < ApplicationRecord
   belongs_to :usuario, :foreign_key => 'id_usuario', :class_name => 'Usuario'
 
   def cardiovasculopatias_list
-    self.cardiovasculopatias.split('*').select { |string| string.size > 0 }
+    if self.cardiovasculopatias.nil? 
+      ''
+    else
+      self.cardiovasculopatias.split('*').select { |string| string.size > 0 }
+    end
   end
 
   def cardiovasculopatias_list=(list)
@@ -64,7 +68,11 @@ class Anamnese < ApplicationRecord
   end
 
   def hepatopatias_list
-    hepatopatias.split('*').select { |string| string.size > 0 }
+    if hepatopatias.nil?
+      ''
+    else
+      hepatopatias.split('*').select { |string| string.size > 0 }
+    end
   end
 
   def hepatopatias_list=(list)

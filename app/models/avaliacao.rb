@@ -14,8 +14,14 @@ class Avaliacao < ApplicationRecord
   # * Exames de raio-x
   # * Avaliações semiológicas auxiliares
   #----------------------------------------------------------------------------
-  has_many :exames_raio_x, :foreign_key => 'id_prontuario_avaliacao', :class_name => 'ExameRaioX'
-  has_many :semiologias_auxiliares, :foreign_key => 'id_prontuario_avaliacao', :class_name => 'SemiologiaAuxiliar'
+  has_many :exames_raio_x, :foreign_key => 'id_prontuario_avaliacao', :class_name => 'ExameRaioX', :inverse_of => :avaliacao
+  has_many :semio_auxiliares, :foreign_key => 'id_prontuario_avaliacao', :class_name => 'SemioAuxiliar', :inverse_of => :avaliacao
+
+  accepts_nested_attributes_for :semio_auxiliares
+  accepts_nested_attributes_for :exames_raio_x
+
+  alias_attribute :paciente_id, :id_paciente
+  alias_attribute :usuario_id, :id_usuario
 
   alias_attribute :data, :ava_data
   alias_attribute :responsavel_atendimento, :ava_resp_att
@@ -66,7 +72,7 @@ class Avaliacao < ApplicationRecord
   alias_attribute :intra_oral_face_bolsa_perio_lingual, :ava_intraOral_faceBolsaPerioLingual
   alias_attribute :intra_oral_face_bolsa_perio_mesial, :ava_intraOral_faceBolsaPerioMesial
   alias_attribute :intra_oral_face_bolsa_perio_distal, :ava_intraOral_faceBolsaPerioDistal
-  alias_attribute :intra_oral_rast_bolsa_perio_distal, :ava_intraOral_rastBolsaPerio
+  alias_attribute :intra_oral_rast_bolsa_perio, :ava_intraOral_rastBolsaPerio
   alias_attribute :intra_oral_local_bolsa_perio, :ava_intraOral_localBolsaPerio
   alias_attribute :intra_oral_necrose_papilar, :ava_intraOral_NecrosePapilar
   alias_attribute :intra_oral_eritema_gengival, :ava_intraOral_eritemaGengival
@@ -114,14 +120,25 @@ class Avaliacao < ApplicationRecord
     :sintomas_fatores_atenuantes,
     :sintomas_associados,
     :hist_clinica_tratamentos_tipo,
-    :intra_oral_coroa
+    :intra_oral_coroa,
+    :intra_oral_face_bolsa_perio,
+    :intra_oral_hiperplasia_tec,
+    :diagnostico_periodontal,
+    :diagnostico_outros,
+    :tratamento
   ].each do |method|
     method_str = method.to_s
+
     define_method(method_str + '_list') do
-      self.send(method).split('*').select { |string| string.size > 0 }
+      if self.send(method).nil?
+        ''
+      else
+        self.send(method).split('*').select { |string| string.size > 0 }
+      end
     end
+
     define_method(method_str + '_list=') do |list|
-      self.send(method_str + '=', list.join('*'))
+      self.send(method_str + '=', list.select { |s| s.length > 0 }.join('*'))
     end
   end
 

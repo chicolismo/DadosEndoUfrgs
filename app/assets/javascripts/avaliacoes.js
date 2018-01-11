@@ -1,5 +1,8 @@
+/*jshint devel: true */
+/*globals $*/
+
+"use strict";
 $(function () {
-    "use strict";
 
     var form = $('.new_avaliacao, .edit_avaliacao');
 
@@ -35,7 +38,7 @@ $(function () {
     var traumatismoDetalhes = form.find('.traumatismo-detalhes').hide();
     (function () {
         var input = traumatismo.find('input:checked');
-        if (input.val().toLowerCase() === 'sim') {
+        if (input.val() && input.val().toLowerCase() === 'sim') {
             traumatismoDetalhes.slideDown(200);
         } else {
             traumatismoDetalhes.slideUp(200);
@@ -45,7 +48,7 @@ $(function () {
         var input = $(this).find('input:checked');
 
         // TODO: Mudar isto no futuro
-        if (input.val().toLowerCase() === 'sim') {
+        if (input.val() && input.val().toLowerCase() === 'sim') {
             traumatismoDetalhes.slideDown(200).find('input').eq(0).focus();
         } else {
             traumatismoDetalhes.slideUp(200);
@@ -61,7 +64,7 @@ $(function () {
     var tratamentosDetalhes = form.find('.tratamentos-realizados-detalhes').hide();
     (function () {
         var input = tratamentos.find('input:checked');
-        if (input.val().toLowerCase() === 'sim') {
+        if (input.val() && input.val().toLowerCase() === 'sim') {
             tratamentosDetalhes.slideDown(200);
         } else {
             tratamentosDetalhes.slideUp(200);
@@ -71,7 +74,7 @@ $(function () {
         var input = $(this).find('input:checked');
 
         // TODO: Mudar isto no futuro
-        if (input.val().toLowerCase() === 'sim') {
+        if (input.val() && input.val().toLowerCase() === 'sim') {
             tratamentosDetalhes.slideDown(200);
         } else {
             tratamentosDetalhes.slideUp(200);
@@ -83,25 +86,27 @@ $(function () {
     // Trata de esconder os detalhes dos exames clínicos
     //=========================================================================
     var exameClinico = form.find('.exame-clinico');
-    (function () {
-        var input = exameClinico.find('input:checked');
-        var next = exameClinico.next();
-        var value = input.val();
-        if (value === 'ausente' || value === 'não coletado') {
-            next.slideUp(200);
+    exameClinico.each(function () {
+        var exame = $(this);
+        var input = exame.find('input:checked');
+        var next = exame.next();
+        var value;
+        if (input.length > 0) {
+            value = input.val();
         }
-        else {
+        if (input.length === 0 || value === 'ausente' || value === 'não coletado') {
+            next.slideUp(200);
+        } else {
             next.slideDown(200);
         }
-    }());
+    });
     exameClinico.on('change', function () {
         var input = $(this).find('input:checked');
         var next = $(this).next();
         var value = input.val();
         if (value === 'ausente' || value === 'não coletado') {
             next.slideUp(200);
-        }
-        else {
+        } else {
             next.slideDown(200).find('input').eq(0).focus();
         }
     });
@@ -116,8 +121,7 @@ $(function () {
         var next = coroa.next();
         if (input.length > 0) {
             next.slideDown(200);
-        }
-        else {
+        } else {
             next.slideUp(200);
         }
     });
@@ -127,8 +131,32 @@ $(function () {
         var next = coroa.next();
         if (input.length > 0) {
             next.slideDown(200).find('input').eq(0).focus();
+        } else {
+            next.slideUp(200);
         }
-        else {
+    });
+
+    //=========================================================================
+    // Trata de esconder os detalhes da bolsa periodontal
+    //=========================================================================
+    var bolsaPeriodontal = form.find('.bolsa-periodontal');
+    bolsaPeriodontal.each(function () {
+        var bolsa = $(this);
+        var input = bolsa.find('input:checked');
+        var next = bolsa.next();
+        if (input.length > 0) {
+            next.slideDown(200);
+        } else {
+            next.slideUp(200);
+        }
+    });
+    bolsaPeriodontal.on('change', function () {
+        var bolsa = $(this);
+        var input = bolsa.find('input:checked');
+        var next = bolsa.next();
+        if (input.length > 0) {
+            next.slideDown(200).find('input').eq(0).focus();
+        } else {
             next.slideUp(200);
         }
     });

@@ -19,21 +19,30 @@ class AvaliacoesController < ApplicationController
     @avaliacao = Avaliacao.new(avaliacao_params)
 
     if @avaliacao.save
-      redirect_to @avaliacao
+      redirect_to @avaliacao.paciente
     else
+      raise @avaliacao.inspect
       redirect_back(:fallback_location => root_url)
     end
   end
 
   def update
     @avaliacao = Avaliacao.find(params[:id])
-    @avaliacao.update(avaliacao_params)
+    @avaliacao.update_attributes(avaliacao_params)
 
     if @avaliacao.save
-      redirect_to @avaliacao
+      redirect_to @avaliacao.paciente
     else
+      raise params.inspect
       redirect_back(:fallback_location => root_url)
     end
+  end
+
+  def destroy
+    avaliacao = Avaliacao.find(params[:id])
+    paciente = avaliacao.paciente
+    avaliacao.delete
+    redirect_to paciente
   end
 
   private
@@ -105,17 +114,73 @@ class AvaliacoesController < ApplicationController
       Option.new(string.downcase, string)
     end
 
-    @intra_oral_coroa_options_1 = ['Ausente', 'Integra', 'Cariada', 'Destruição coronária', 'Fratura Coronária', 'Coroa protética'].map do |string|
+    @intra_oral_coroa_options_1 = ['Ausente', 'Integra', 'Cariada', 'Destruição coronária',
+      'Fratura Coronária', 'Coroa protética'].map do |string|
       Option.new(string.downcase, string)
     end
 
-    @intra_oral_coroa_options_2 = ['Prognóstico restaurador duvidoso', 'Exposição da cavidade pulpar', 'Alteração cromática', 'Dado não coletado'].map do |string|
+    @intra_oral_coroa_options_2 = ['Prognóstico restaurador duvidoso', 'Exposição da cavidade pulpar',
+      'Alteração cromática', 'Dado não coletado'].map do |string|
       Option.new(string.downcase, string)
     end
+
+    @intra_oral_coroa_options_3 = ['Mobilidade dental', 'Contato prematuro', 'Sobrecarga mastigatória'].map do |string|
+      Option.new(string.downcase, string)
+    end
+
+    @intra_oral_inclinacao_dente_options = ['Inclinação leve (<10º)', 'Inclinação moderada (10-30º)',
+      'Inclinação extrema (>30º)', 'Dado não coletado'].map { |string| Option.new(string.downcase, string) }
+
+    @intra_oral_giroversao_options = ['Rotação ausente', 'Rotação leve (<10º)',
+      'Rotação moderada (10-30º)', 'Rotação extrema (>30º)'].map { |string| Option.new(string.downcase, string) }
+
+    @intra_oral_hiperplasia_tec_options = ['Ausente', 'Presente/origem na gengiva marginal',
+      'Presente/origem na cavidade dental', 'Dado não coletado'].map { |string| Option.new(string.downcase, string) }
+
+    @diagnostico_pulpar_options = ['Polpa saudável', 'Pulpite com prognóstico reversível',
+      'Pulpite com prognóstico irreversível', 'Úlcera pulpar', 'Pólipo pulpar',
+      'Necrose pulpar', 'Dado não coletado'].map { |string| Option.new(string.downcase, string) }
+
+    @diagnostico_periapical_options_1 = ['Perápice saudável', 'Dado não coletado'].map do |string|
+      Option.new(string.downcase, string)
+    end
+
+    @diagnostico_periapical_options_2 = ['Pericementite apical traumática', 'Pericementite apical infecciosa',
+     'Abcesso apical agudo inicial', 'Abcesso apical agudo em evolução', 'Abcesso apical agudo evoluído'].map do |string|
+      Option.new(string.downcase, string)
+    end
+
+    @diagnostico_periapical_options_3 = ['Com fístula', 'Sem fístula'].map do |string|
+      Option.new(string.downcase, string)
+    end
+
+    @diagnostico_periodontal_options = ['Periodonto saudável', 'Periodontite', 'Pólipo gengival',
+     'Gengivo estomatite herpética aguda', 'Lesão endoperiodontal', 'Gengivite', 'Pólipo periodontal',
+     'Eritema linear', 'Abcesso periodontal', 'Abscesso gengival periocoronarite', 'GUNA', 'PUNA',
+     'Dado não coletado'].map { |string| Option.new(string.downcase, string) }
+
+    @diagnostico_outros_options = ["Fratura radicular vertical", "Fratura radicular horizontal",
+      "Fratura radicular obliqua", "Reabsorção interna", "Reabsorção externa inflamatória",
+      "Reabsorção comunicante", "Reabsorção externa substitutiva", "Reabsorção cervical", "Trauma oclusal",
+      "Sensibilidade dentinária", "Dado não coletado"].map { |string| Option.new(string.downcase, string) }
+
+    @tratamento_options_1 = ["Dado não coletado", "Proservação", "Atendimento de urgência",
+      "Alívio oclusal", "Tratamento restaurador", "Tratamento periodontal",
+      "Dor orofacial", "Exodontia", "Avaliação protética"].map { |string| Option.new(string.downcase, string) }
+
+    @tratamento_options_2 = ["Remoção parcial de tecido cariado", "Capeamento pulpar indireto",
+      "Capeamento pulpar direto", "Curetagem pulpar", "Pulpotomia"].map { |string| Option.new(string.downcase, string) }
+
+    @tratamento_options_3 = ["Apicigênese", "Apicificação", "Revascularização",
+      "Tratamento endodôntico", "Retratamento endodôntico", "Cirurgia paraendodôntica",
+      "Tratamento endodôntico com finalidade protética"].map { |string| Option.new(string.downcase, string) }
+
   end
 
   def avaliacao_params
     params.require(:avaliacao).permit(
+      :paciente_id,
+      :usuario_id,
       :data,
       :responsavel_atendimento,
       :queixa_principal,
@@ -164,19 +229,21 @@ class AvaliacoesController < ApplicationController
       :intra_oral_inclinacao_dente,
       :intra_oral_giroversao,
       :intra_oral_bolsa_perio,
-      :intra_oral_face_bolsa_perio,
+      #:intra_oral_face_bolsa_perio,
+      { :intra_oral_face_bolsa_perio_list => [] },
       :intra_oral_face_bolsa_perio_vestibular,
       :intra_oral_face_bolsa_perio_palatina,
       :intra_oral_face_bolsa_perio_lingual,
       :intra_oral_face_bolsa_perio_mesial,
       :intra_oral_face_bolsa_perio_distal,
-      :intra_oral_rast_bolsa_perio_distal,
+      :intra_oral_rast_bolsa_perio,
       :intra_oral_local_bolsa_perio,
       :intra_oral_necrose_papilar,
       :intra_oral_eritema_gengival,
       :intra_oral_inv_espaco_bio,
       :intra_oral_retracao_gengival,
       :intra_oral_hiperplasia_tec,
+      #{ :intra_oral_hiperplasia_tec_list => [] },
       :radio_alt_periapical,
       :radio_indice_periapical,
       :radio_detalhes,
@@ -204,10 +271,13 @@ class AvaliacoesController < ApplicationController
       :tomo_detalhes,
       :diagnostico_pulpar,
       :diagnostico_periapical,
-      :diagnostico_periodontal,
-      :diagnostico_outros,
+      #:diagnostico_periodontal,
+      { :diagnostico_periodontal_list => [] },
+      #:diagnostico_outros,
+      { :diagnostico_outros_list => [] },
       :diagnostico_obs,
-      :tratamento,
+      #:tratamento,
+      { :tratamento_list => [] },
       :tratamento_outros,
     )
   end

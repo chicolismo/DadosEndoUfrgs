@@ -1,4 +1,4 @@
-class SemiologiaAuxiliar < ApplicationRecord
+class SemioAuxiliar < ApplicationRecord
   self.table_name = 'semioaux'
   self.primary_key = 'id_semioAux'
 

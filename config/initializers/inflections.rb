@@ -16,7 +16,7 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular 'obturacao', 'obturacoes'
   inflect.irregular 'preparo_terco_cervical', 'preparos_terco_cervical'
   inflect.irregular 'exame_raio_x', 'exames_raio_x'
-  inflect.irregular 'semiologia_auxiliar', 'semiologias_auxiliares'
+  inflect.irregular 'semio_auxiliar', 'semio_auxiliares'
 end
 
 # These inflection rules are supported but not enabled by default:

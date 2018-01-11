@@ -1,6 +1,4 @@
-- cardiovasculopatias_options = { :shite => 'fuck' }
-
-p Paciente: #{@anamnese.paciente.nome}, CPF: #{@anamnese.paciente.cpf}
+p Paciente: #{link_to @anamnese.paciente.nome, @anamnese.paciente}
 
 = form_for @anamnese do |f|
   = f.hidden_field :usuario_id

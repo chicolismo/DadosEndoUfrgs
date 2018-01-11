@@ -1,5 +1,7 @@
+/*jshint devel: true */
+/*global $*/
+"use strict";
 $(function () {
-    "use strict";
 
     function toggleNext() {
         var toggler = $(this);
@@ -18,6 +20,4 @@ $(function () {
 
     formToggler.each(toggleNext);
     formToggler.on('change', toggleNext);
-
-
 });
