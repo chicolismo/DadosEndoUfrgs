@@ -359,5 +359,16 @@ p Paciente: #{link_to @avaliacao.paciente.nome, @avaliacao.paciente}
       | <b>Endodontia</b><br />
       = f.collection_check_boxes(:tratamento_list, @tratamento_options_3, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.check_box(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check') }
 
+  fieldset
+    legend Recursos semiotécnicos auxiliares
+
+    #semio-auxiliares
+      = f.fields_for :semio_auxiliares do |semio|
+        = render 'semio_auxiliar_fields', :f => semio
+
+      .form-group.links
+        = link_to_add_association 'Adicionar recurso semiotécnico auxiliar', f, :semio_auxiliares, :render_options => { :wrapper => 'inline' }, :class => 'btn btn-success btn-sm'
+
+
   .form-group
     = f.submit 'Salvar avaliação', :class => 'btn btn-primary'

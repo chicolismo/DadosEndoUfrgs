@@ -7,7 +7,7 @@ p Paciente: #{link_to @anamnese.paciente.nome, @anamnese.paciente}
 
   .form-group
     = f.label :data, "Data da entrevista"
-    = f.date_field :data, :class => 'form-control'
+    = f.date_field :data, :class => 'form-control', :required => true
 
 
   = toggle_text_field(f, 'tratamento_medico', 'Está em tratamento no momento?', 'tratamento_medico_motivo', 'Motivo do tratamento')

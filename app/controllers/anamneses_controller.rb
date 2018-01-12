@@ -23,7 +23,7 @@ class AnamnesesController < ApplicationController
     @anamnese = Anamnese.new(anamnese_params)
     # TODO: Colocar mensagem de flash alert com o aviso de erro
     if @anamnese.save
-      redirect_to(@anamnese)
+      redirect_to(@anamnese.paciente)
     else
       redirect_back(:fallback_location => root_path)
     end
@@ -35,7 +35,7 @@ class AnamnesesController < ApplicationController
 
     # TODO: Colocar mensagem de flash alert com o aviso de erro
     if @anamnese.save
-      redirect_to(@anamnese)
+      redirect_to(@anamnese.paciente)
     else
       redirect_back(:fallback_location => root_path)
     end
@@ -44,7 +44,7 @@ class AnamnesesController < ApplicationController
   def destroy
     anamnese = Anamnese.find(params[:id])
     paciente = anamnese.paciente
-    anamnese.delete
+    anamnese.destroy
     redirect_to paciente
   end
 

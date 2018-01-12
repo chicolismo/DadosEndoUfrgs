@@ -14,10 +14,10 @@ class Avaliacao < ApplicationRecord
   # * Exames de raio-x
   # * Avaliações semiológicas auxiliares
   #----------------------------------------------------------------------------
-  has_many :exames_raio_x, :foreign_key => 'id_prontuario_avaliacao', :class_name => 'ExameRaioX', :inverse_of => :avaliacao
-  has_many :semio_auxiliares, :foreign_key => 'id_prontuario_avaliacao', :class_name => 'SemioAuxiliar', :inverse_of => :avaliacao
+  has_many :semio_auxiliares, :foreign_key => 'id_prontuario_avaliacao', :class_name => 'SemioAuxiliar', :inverse_of => :avaliacao, :dependent => :destroy
+  has_many :exames_raio_x, :foreign_key => 'id_prontuario_avaliacao', :class_name => 'ExameRaioX', :inverse_of => :avaliacao, :dependent => :destroy
 
-  accepts_nested_attributes_for :semio_auxiliares
+  accepts_nested_attributes_for :semio_auxiliares, :reject_if => lambda { |semio| semio[:dente].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :exames_raio_x
 
   alias_attribute :paciente_id, :id_paciente

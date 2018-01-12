@@ -41,7 +41,7 @@ class AvaliacoesController < ApplicationController
   def destroy
     avaliacao = Avaliacao.find(params[:id])
     paciente = avaliacao.paciente
-    avaliacao.delete
+    avaliacao.destroy
     redirect_to paciente
   end
 
@@ -132,7 +132,7 @@ class AvaliacoesController < ApplicationController
       'Inclinação extrema (>30º)', 'Dado não coletado'].map { |string| Option.new(string.downcase, string) }
 
     @intra_oral_giroversao_options = ['Rotação ausente', 'Rotação leve (<10º)',
-      'Rotação moderada (10-30º)', 'Rotação extrema (>30º)'].map { |string| Option.new(string.downcase, string) }
+      'Rotação moderada (10-30º)', 'Rotação extrema (>30º)', 'Dado não coletado'].map { |string| Option.new(string.downcase, string) }
 
     @intra_oral_hiperplasia_tec_options = ['Ausente', 'Presente/origem na gengiva marginal',
       'Presente/origem na cavidade dental', 'Dado não coletado'].map { |string| Option.new(string.downcase, string) }
@@ -175,6 +175,9 @@ class AvaliacoesController < ApplicationController
       "Tratamento endodôntico", "Retratamento endodôntico", "Cirurgia paraendodôntica",
       "Tratamento endodôntico com finalidade protética"].map { |string| Option.new(string.downcase, string) }
 
+    @semio_auxiliar_options = ['Negativa', 'Positiva', 'Não realizada', 'Dado não coletado'].map do |string|
+      Option.new(string.downcase, string)
+    end
   end
 
   def avaliacao_params
@@ -244,29 +247,29 @@ class AvaliacoesController < ApplicationController
       :intra_oral_retracao_gengival,
       :intra_oral_hiperplasia_tec,
       #{ :intra_oral_hiperplasia_tec_list => [] },
-      :radio_alt_periapical,
-      :radio_indice_periapical,
-      :radio_detalhes,
-      :radio_detalhes_terco,
-      :radio_detalhes1,
-      :radio_detalhes2,
-      :radio_detalhes3,
-      :radio_detalhes4,
-      :perda_ossa_reg_lateral,
-      :perda_ossea_reg_lateral_local,
-      :perda_ossea_perio,
-      :tratamento_endo,
-      :tratamento_endo_sat_tempo,
-      :tratamento_endo_ins_tempo,
-      :caract_apar0,
-      :caract_apar1,
-      :caract_apar2,
-      :caract_apar3,
-      :caract_apar4,
-      :caract_apar5,
-      :caract_apar6,
-      :caract_apar_canais_n_trat,
-      :caract_apar_cones_prata,
+      # :radio_alt_periapical,
+      # :radio_indice_periapical,
+      # :radio_detalhes,
+      # :radio_detalhes_terco,
+      # :radio_detalhes1,
+      # :radio_detalhes2,
+      # :radio_detalhes3,
+      # :radio_detalhes4,
+      # :perda_ossa_reg_lateral,
+      # :perda_ossea_reg_lateral_local,
+      # :perda_ossea_perio,
+      # :tratamento_endo,
+      # :tratamento_endo_sat_tempo,
+      # :tratamento_endo_ins_tempo,
+      # :caract_apar0,
+      # :caract_apar1,
+      # :caract_apar2,
+      # :caract_apar3,
+      # :caract_apar4,
+      # :caract_apar5,
+      # :caract_apar6,
+      # :caract_apar_canais_n_trat,
+      # :caract_apar_cones_prata,
       :tomo,
       :tomo_detalhes,
       :diagnostico_pulpar,
@@ -279,6 +282,9 @@ class AvaliacoesController < ApplicationController
       #:tratamento,
       { :tratamento_list => [] },
       :tratamento_outros,
+
+      # SemioAuxiliares
+      { :semio_auxiliares_attributes => [:id, :avaliacao_id, :dente, :percussao_vertical, :percussao_horizontal, :som_metalico_percussao, :pressao_apical, :sensibilidade_frio, :teste_cavidade, :teste_anestesia, :calor] },
     )
   end
 

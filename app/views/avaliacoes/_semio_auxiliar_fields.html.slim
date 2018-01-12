@@ -1,0 +1,43 @@
+
+.nested-fields.sub-group
+  = f.hidden_field :id
+  = f.hidden_field :avaliacao_id
+
+  .form-group
+    = f.label :dente, 'Dente'
+    = f.text_field :dente, :class => 'form-control', :required => true
+
+  .form-group
+    | Percussão vertical<br />
+    = f.collection_radio_buttons(:percussao_vertical, @semio_auxiliar_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+  .form-group
+    | Percussão horizontal<br />
+    = f.collection_radio_buttons(:percussao_horizontal, @semio_auxiliar_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+  .form-group
+    | Som metálico à percussão<br />
+    = f.collection_radio_buttons(:som_metalico_percussao, @semio_auxiliar_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+  .form-group
+    | Pressão apical<br />
+    = f.collection_radio_buttons(:pressao_apical, @semio_auxiliar_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+  .form-group
+    | Teste de sensibilidade ao frio<br />
+    = f.collection_radio_buttons(:sensibilidade_frio, @semio_auxiliar_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+  .form-group
+    | Teste de cavidade<br />
+    = f.collection_radio_buttons(:teste_cavidade, @semio_auxiliar_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+  .form-group
+    | Teste de anestesia<br />
+    = f.collection_radio_buttons(:teste_anestesia, @semio_auxiliar_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+  .form-group
+    | Calor<br />
+    = f.collection_radio_buttons(:calor, @semio_auxiliar_options, :id, :name) { |c| tag.div(c.label(:class => 'form-check-label') { c.radio_button(:class => 'form-check-input') + c.text.capitalize }, :class => 'form-check form-check-inline') }
+
+  .form-group
+    = link_to_remove_association 'Desfazer inclusão recurso', f, :class => 'btn btn-secondary btn-sm'

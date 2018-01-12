@@ -4,5 +4,5 @@ class ExameRaioX < ApplicationRecord
 
   has_many :curvaturas_raizes, :foreign_key => 'id_examerx', :class_name => 'CurvaturaRaizes'
 
-  belongs_to :Avaliacao, :foreign_key => 'id_prontuario_avaliacao', :class_name => 'Avaliacao'
+  belongs_to :avaliacao, :foreign_key => 'id_prontuario_avaliacao', :class_name => 'Avaliacao'
 end
